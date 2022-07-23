@@ -35,16 +35,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import * as userService from "../services/userServices.js";
+import * as encryptServices from "../services/encryptServices.js";
 export function registerUser(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            // const {password, email} : {password : string, email : string}= req.body;
-            // const encryptedPassword = encryptServices.hash(password)
-            // console.log(encryptedPassword)
-            // const data = {encryptedPassword, email}
-            // await userService.registerUser(data);
-            res.sendStatus(201);
-            return [2 /*return*/];
+        var _a, password, email, encryptedPassword, data;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = req.body, password = _a.password, email = _a.email;
+                    encryptedPassword = encryptServices.hash(password);
+                    console.log(encryptedPassword);
+                    data = { encryptedPassword: encryptedPassword, email: email };
+                    return [4 /*yield*/, userService.registerUser(data)];
+                case 1:
+                    _b.sent();
+                    res.sendStatus(201);
+                    return [2 /*return*/];
+            }
         });
     });
 }

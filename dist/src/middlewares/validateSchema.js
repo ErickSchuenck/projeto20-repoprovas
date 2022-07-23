@@ -8,13 +8,3 @@ export function validateSchema(schema) {
     };
 }
 ;
-export function checkIfConfirmPasswordMatches(req, res, next) {
-    var _a = req.body, password = _a.password, confirmPassword = _a.confirmPassword;
-    if (password !== confirmPassword) {
-        throw {
-            status: 400,
-            type: 'Bad Request',
-            message: 'Password and confirm password do not match'
-        };
-    }
-}
