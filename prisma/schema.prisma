@@ -28,11 +28,11 @@ model tests {
   pdfUrl   String 
   categories categories @relation(fields: [categoryId], references: [id])
   categoryId Int
-  teacherDisciplines teacherDisciplines @relation(fields: [teacherDisciplineId], references: [id])
+  teachersDisciplines teachersDisciplines @relation(fields: [teacherDisciplineId], references: [id])
   teacherDisciplineId     Int
 }
 
-model teacherDisciplines {
+model teachersDisciplines {
   id            Int        @id @default(autoincrement())
   teachers      teachers    @relation(fields: [teacherId], references: [id])
   teacherId     Int
@@ -44,7 +44,7 @@ model teacherDisciplines {
 model teachers {
   id                 Int                 @id @default(autoincrement())
   name               String              @unique
-  teacherDisciplines teacherDisciplines[]
+  teachersDisciplines teachersDisciplines[]
 }
 
 model disciplines {
@@ -52,7 +52,7 @@ model disciplines {
   name                String              @unique
   terms               terms               @relation(fields: [termId], references: [id])
   termId              Int
-  teacherDisciplines  teacherDisciplines[]
+  teachersDisciplines  teachersDisciplines[]
 }
 
 model terms {
