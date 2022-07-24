@@ -3,8 +3,7 @@ import prisma from "../config/database.js"
 interface testInsertData {
     name : string, 
     pdfUrl: string, 
-    categoryId: number, 
-    disciplineId: number, 
+    categoryId: number,
     teacherDisciplineId: number
 }
 
@@ -23,4 +22,26 @@ export async function insertTest(data : testInsertData) {
             teacherDisciplineId
         }
     });
+}
+
+export async function getCategoryIdByCategoryName(categoryName : string){
+  const result = await prisma.categories.findFirst({
+        where:{
+            name:{
+                startsWith: categoryName,
+                mode: 'insensitive'
+            }
+        }
+  });
+  return result.id
+}
+
+export async function getTeacherDisciplineByTeacherAndDisciplineIds(teacherId: number, disciplineId: number) {
+  const result = await prisma.teachersDisciplines.findFirst({
+        where: {
+            teacherId,
+            disciplineId
+        }
+    });
+    return result;
 }
