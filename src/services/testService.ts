@@ -31,7 +31,6 @@ async function verifyTeacherDisciplineExistance(teacherId: number, disciplineId:
 export async function getAllTestsBy(property : "disciplines" | "teachers") {
   let response = {};
   if (property === "disciplines"){
-    console.log('entrou 4')
     response = await testRepository.getTestsByDiscipline()
   }
   else {
@@ -39,21 +38,3 @@ export async function getAllTestsBy(property : "disciplines" | "teachers") {
   }
   return response
 }
-
-// async function getAllTestsByDiscipline(){
-//   const tests = await testRepository.getAllTests();
-//   const formattedOutput = tests.map(tests => 
-//     {
-
-//     });
-//   return formattedOutput
-// }
-
-// async function getAllTestsByTeachers(){
-//   const tests = await testRepository.getAllTests();
-//   const formattedOutput = tests.map(tests => 
-//     {
-      
-//     });
-//   return formattedOutput
-// }

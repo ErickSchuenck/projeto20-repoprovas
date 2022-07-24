@@ -59,27 +59,25 @@ export function getTests(req, res) {
                 case 0:
                     query = req.query.groupBy;
                     tests = {};
-                    console.log('entrou1');
                     if (!(query === "disciplines")) return [3 /*break*/, 2];
-                    console.log('entrou3');
                     return [4 /*yield*/, testService.getAllTestsBy("disciplines")];
                 case 1:
                     tests = _a.sent();
                     _a.label = 2;
                 case 2:
                     if (!(query === "teachers")) return [3 /*break*/, 4];
-                    console.log('entrou2');
                     return [4 /*yield*/, testService.getAllTestsBy("teachers")];
                 case 3:
                     tests = _a.sent();
-                    return [3 /*break*/, 5];
-                case 4: throw {
-                    status: 401,
-                    type: "Unauthorized",
-                    message: "Incorrect input"
-                };
-                case 5:
-                    console.log(tests);
+                    _a.label = 4;
+                case 4:
+                    if (query !== "teachers" && query !== "disciplines") {
+                        throw {
+                            status: 401,
+                            type: "Unauthorized",
+                            message: "Incorrect input"
+                        };
+                    }
                     res.status(200).send(tests);
                     return [2 /*return*/];
             }

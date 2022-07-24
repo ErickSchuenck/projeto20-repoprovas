@@ -79,14 +79,19 @@ export function getAllTestsBy(property) {
     return __awaiter(this, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
-            response = {};
-            if (property === "disciplines") {
-                response = testRepository.getTestsByDiscipline;
+            switch (_a.label) {
+                case 0:
+                    response = {};
+                    if (!(property === "disciplines")) return [3 /*break*/, 2];
+                    return [4 /*yield*/, testRepository.getTestsByDiscipline()];
+                case 1:
+                    response = _a.sent();
+                    return [3 /*break*/, 3];
+                case 2:
+                    response = testRepository.getTestsByTeacher();
+                    _a.label = 3;
+                case 3: return [2 /*return*/, response];
             }
-            else {
-                response = testRepository.getTestsByTeacher;
-            }
-            return [2 /*return*/, response];
         });
     });
 }
