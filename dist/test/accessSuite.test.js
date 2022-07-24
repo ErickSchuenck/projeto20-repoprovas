@@ -42,7 +42,7 @@ var CONFIRMPASSWORD = PASSWORD;
 var createUserInput = { email: EMAIL, password: PASSWORD, confirmPassword: CONFIRMPASSWORD };
 var login = { email: EMAIL, password: PASSWORD };
 describe("Acess tests suite", function () {
-    it("given an email and password create user", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("given an email and password, and matching confirm password create user", function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {

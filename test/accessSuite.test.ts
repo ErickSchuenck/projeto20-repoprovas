@@ -8,7 +8,7 @@ const createUserInput = {email: EMAIL, password: PASSWORD, confirmPassword: CONF
 const login = {email: EMAIL, password: PASSWORD}
 
 describe ("Acess tests suite", () => {
-  it ("given an email and password create user", async () => {
+  it ("given an email and password, and matching confirm password create user", async () => {
     const response = await supertest(app).post(`/signUp`).send(createUserInput);
     expect(response.status).toBe(201)
   });

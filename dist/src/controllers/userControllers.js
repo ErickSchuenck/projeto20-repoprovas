@@ -44,7 +44,6 @@ export function registerUser(req, res) {
                 case 0:
                     _a = req.body, password = _a.password, email = _a.email;
                     encryptedPassword = encryptServices.hash(password);
-                    console.log(encryptedPassword);
                     data = { encryptedPassword: encryptedPassword, email: email };
                     return [4 /*yield*/, userService.registerUser(data)];
                 case 1:
