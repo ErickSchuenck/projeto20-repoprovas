@@ -8,3 +8,10 @@ export var signUpSchema = joi.object({
     password: joi.string().required(),
     confirmPassword: joi.ref("password")
 });
+export var testSchema = joi.object({
+    name: joi.string().required(),
+    pdfUrl: joi.string().required(),
+    categoryName: joi.string().required(),
+    disciplineId: joi.number().integer().required(),
+    teacherId: joi.number().integer().required()
+});
