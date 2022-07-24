@@ -27,3 +27,10 @@ async function verifyTeacherDisciplineExistance(teacherId: number, disciplineId:
   }
   return result.id
 }
+
+export async function getAllTestsBy(property : "disciplines" | "teachers") {
+  const response = await (property === "disciplines" ? 
+     testRepository.getTestsByDiscipline() : testRepository.getAllTestsByTeachers()
+  )
+  return response
+}

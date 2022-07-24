@@ -8,13 +8,13 @@ interface testInsertData {
 }
 
 export async function getTestFromDb(name : string){
-  const result = await prisma.tests.findUnique({where: {name}})
-  return result
+    const result = await prisma.tests.findUnique({where: {name}})
+    return result
 }
 
 export async function insertTest(data : testInsertData) {
-  const {name, pdfUrl,categoryId, teacherDisciplineId } = data
-  await prisma.tests.create({
+    const {name, pdfUrl,categoryId, teacherDisciplineId } = data
+    await prisma.tests.create({
         data:{
             name,
             pdfUrl,
@@ -25,23 +25,43 @@ export async function insertTest(data : testInsertData) {
 }
 
 export async function getCategoryIdByCategoryName(categoryName : string){
-  const result = await prisma.categories.findFirst({
-        where:{
-            name:{
-                startsWith: categoryName,
-                mode: 'insensitive'
+    const result = await prisma.categories.findFirst({
+            where:{
+                name:{
+                    startsWith: categoryName,
+                    mode: 'insensitive'
+                }
             }
-        }
-  });
+    });
   return result.id
 }
 
 export async function getTeacherDisciplineByTeacherAndDisciplineIds(teacherId: number, disciplineId: number) {
-  const result = await prisma.teachersDisciplines.findFirst({
+    const result = await prisma.teachersDisciplines.findFirst({
         where: {
             teacherId,
             disciplineId
         }
     });
     return result;
+}
+
+export async function getDisciplineIdByDisciplineName(discipline: string) {
+    const result = await prisma.disciplines.findFirst({where: {
+        name: discipline
+    }})
+    return result.id
+}
+
+
+
+export async function getTestsByDiscipline(){
+    const tests = await prisma.terms.findMany();
+    return {tests}
+}
+
+export async function getAllTestsByTeachers(){
+    const tests = await prisma.terms.findMany();
+
+    return { tests }
 }
