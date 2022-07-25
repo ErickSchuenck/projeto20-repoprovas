@@ -21,8 +21,8 @@ const testBody = {
     name: 'prova dificil',
     pdfUrl: 'https://http.cat/',
     categoryName: "Projeto",
-    teacherId: 5,
-    disciplineId:10
+    teacherId: 1,
+    disciplineId:1
 }
 
 describe ("Access tests suite", () => {
@@ -34,7 +34,6 @@ describe ("Access tests suite", () => {
   it ("given valid email and password, return token",async () => {
     const response = await supertest(app).post(`/signIn`).send(login);
     token = response.body.token;
-    console.log('TOKEN', token)
     expect(typeof response.body.token).toEqual('string')
     expect(response.body.token.length).toBeGreaterThan(0);
   });

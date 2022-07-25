@@ -64,8 +64,8 @@ var testBody = {
     name: 'prova dificil',
     pdfUrl: 'https://http.cat/',
     categoryName: "Projeto",
-    teacherId: 5,
-    disciplineId: 10
+    teacherId: 1,
+    disciplineId: 1
 };
 describe("Access tests suite", function () {
     it("given an email, password and matching confirm password, create user", function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -88,7 +88,6 @@ describe("Access tests suite", function () {
                 case 1:
                     response = _a.sent();
                     token = response.body.token;
-                    console.log('TOKEN', token);
                     expect(typeof response.body.token).toEqual('string');
                     expect(response.body.token.length).toBeGreaterThan(0);
                     return [2 /*return*/];
