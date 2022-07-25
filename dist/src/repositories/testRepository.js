@@ -85,7 +85,6 @@ export function getCategoryIdByCategoryName(categoryName) {
                     })];
                 case 1:
                     result = _a.sent();
-                    console.log('AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII', result.id);
                     return [2 /*return*/, result.id];
             }
         });

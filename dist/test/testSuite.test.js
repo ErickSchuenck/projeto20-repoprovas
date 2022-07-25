@@ -109,7 +109,7 @@ describe("Access tests suite", function () {
     }); });
 });
 describe("Create tests test suite", function () {
-    it("Given test data, create test", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("Given test data, and token create test", function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -121,7 +121,19 @@ describe("Create tests test suite", function () {
             }
         });
     }); });
-    it("Given test data that already exists, fail create test", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("Given test data without a token, fail create test", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app).post("/test").send(testBody)];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(401);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("Given test data that already exists, and a token fail create test", function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -135,6 +147,19 @@ describe("Create tests test suite", function () {
     }); });
 });
 describe("Get tests test suite", function () {
+    it('given no token, fail to get tests in db grouped by its teachers', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app)
+                        .get("/tests?groupBy=teachers")];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(401);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
     it("given the token, get all tests in db grouped by its teachers", function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
@@ -144,8 +169,20 @@ describe("Get tests test suite", function () {
                         .set('Authorization', "Bearer ".concat(token))];
                 case 1:
                     response = _a.sent();
-                    console.log(response.error);
-                    expect(response.status).toBe(200); // por algum motivo está respondendo 409
+                    expect(response.status).toBe(200);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("given no token, fail to get tests in db grouped by its disciplines", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app)
+                        .get("/tests?groupBy=disciplines")];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(401);
                     return [2 /*return*/];
             }
         });
@@ -159,8 +196,21 @@ describe("Get tests test suite", function () {
                         .set('Authorization', "Bearer ".concat(token))];
                 case 1:
                     response = _a.sent();
-                    console.log(response.error);
-                    expect(response.status).toBe(200); // por algum motivo está respondendo 409
+                    expect(response.status).toBe(200);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("given the token, but with an incorrect query input, fail to get tests in db", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app)
+                        .get("/tests?groupBy=incorrectInput")
+                        .set('Authorization', "Bearer ".concat(token))];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(401);
                     return [2 /*return*/];
             }
         });

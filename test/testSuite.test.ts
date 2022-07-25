@@ -47,32 +47,54 @@ describe ("Access tests suite", () => {
 });
 
 describe ("Create tests test suite", () => {
-  it ("Given test data, create test",async () => {
+  it ("Given test data, and token create test",async () => {
     const response = await supertest(app).post("/test").set('Authorization', `Bearer ${token}`).send(testBody);
     expect(response.status).toBe(201)
   });
 
-  it ("Given test data that already exists, fail create test",async () => {
+  it ("Given test data without a token, fail create test",async () => {
+    const response = await supertest(app).post(`/test`).send(testBody);
+    expect(response.status).toBe(401)
+  });
+
+  it ("Given test data that already exists, and a token fail create test",async () => {
     const response = await supertest(app).post(`/test`).set('Authorization', `Bearer ${token}`).send(testBody);
     expect(response.status).toBe(409)
   });
 });
 
 describe ("Get tests test suite", () => {
+  it ('given no token, fail to get tests in db grouped by its teachers', async () => {
+    const response = await supertest(app)
+    .get(`/tests?groupBy=teachers`);
+    expect(response.status).toBe(401)
+  });
+
   it ("given the token, get all tests in db grouped by its teachers", async () => {
     const response = await supertest(app)
     .get(`/tests?groupBy=teachers`)
     .set('Authorization', `Bearer ${token}`);
-    console.log(response.error)
-    expect(response.status).toBe(200) // por algum motivo está respondendo 409
+    expect(response.status).toBe(200)
+  });
+
+  it ("given no token, fail to get tests in db grouped by its disciplines", async () => {
+    const response = await supertest(app)
+    .get(`/tests?groupBy=disciplines`);
+    expect(response.status).toBe(401)
   });
 
   it ("given the token, get all tests in db grouped by its disciplines", async () => {
     const response = await supertest(app)
     .get(`/tests?groupBy=disciplines`)
     .set('Authorization', `Bearer ${token}`);
-    console.log(response.error)
-    expect(response.status).toBe(200) // por algum motivo está respondendo 409
+    expect(response.status).toBe(200)
+  });
+
+  it ("given the token, but with an incorrect query input, fail to get tests in db", async () => {
+    const response = await supertest(app)
+    .get(`/tests?groupBy=incorrectInput`)
+    .set('Authorization', `Bearer ${token}`);
+    expect(response.status).toBe(401)
   });
 
 })
