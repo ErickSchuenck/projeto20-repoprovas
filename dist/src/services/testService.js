@@ -42,12 +42,14 @@ export function registerTest(data) {
             switch (_a.label) {
                 case 0:
                     name = data.name, pdfUrl = data.pdfUrl, categoryName = data.categoryName, disciplineId = data.disciplineId, teacherId = data.teacherId;
-                    verifyTestUniqueness(name);
-                    return [4 /*yield*/, testRepository.getCategoryIdByCategoryName(categoryName)];
+                    return [4 /*yield*/, verifyTestUniqueness(name)];
                 case 1:
+                    _a.sent();
+                    return [4 /*yield*/, testRepository.getCategoryIdByCategoryName(categoryName)];
+                case 2:
                     categoryId = _a.sent();
                     return [4 /*yield*/, verifyTeacherDisciplineExistance(teacherId, disciplineId)];
-                case 2:
+                case 3:
                     teacherDisciplineId = _a.sent();
                     insertInDb = { name: name, pdfUrl: pdfUrl, categoryId: categoryId, teacherDisciplineId: teacherDisciplineId };
                     testRepository.insertTest(insertInDb);
@@ -106,8 +108,8 @@ function verifyTestUniqueness(name) {
                     result = _a.sent();
                     if (result) {
                         throw {
-                            status: 400,
-                            type: 'bad request',
+                            status: 409,
+                            type: 'conflict',
                             message: 'This test already exists'
                         };
                     }

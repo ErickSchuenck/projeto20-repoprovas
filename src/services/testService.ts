@@ -44,8 +44,8 @@ async function verifyTestUniqueness(name : string) {
   const result = await testRepository.getTest(name)
   if (result){
     throw {
-      status: 400,
-      type: 'bad request',
+      status: 409,
+      type: 'conflict',
       message: 'This test already exists'
     }
   }
