@@ -64,7 +64,7 @@ export function login(req, res) {
                     return [4 /*yield*/, userService.login(data)];
                 case 1:
                     token = _a.sent();
-                    res.status(200).send(token);
+                    res.status(200).send({ token: token });
                     return [2 /*return*/];
             }
         });

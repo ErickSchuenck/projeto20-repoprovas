@@ -41,7 +41,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import supertest from "supertest";
 import app from "../src/app.js";
 import prisma from "../src/config/database.js";
-import { faker } from '@faker-js/faker';
 afterAll(function () { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -62,8 +61,8 @@ var createUserInput = { email: EMAIL, password: PASSWORD, confirmPassword: CONFI
 var login = { email: EMAIL, password: PASSWORD }; // body to login as user
 var token; // token that will be received as user logins
 var testBody = {
-    name: faker.name.jobTitle,
-    pdfUrl: faker.internet.url,
+    name: 'prova dificil',
+    pdfUrl: 'https://http.cat/',
     categoryName: "Projeto",
     teacherId: 5,
     disciplineId: 10
@@ -89,7 +88,9 @@ describe("Access tests suite", function () {
                 case 1:
                     response = _a.sent();
                     token = response.body.token;
-                    expect(token).not.toBeNull;
+                    console.log('TOKEN', token);
+                    expect(typeof response.body.token).toEqual('string');
+                    expect(response.body.token.length).toBeGreaterThan(0);
                     return [2 /*return*/];
             }
         });
@@ -120,26 +121,49 @@ describe("Create tests test suite", function () {
             }
         });
     }); });
+    it("Given test data that already exists, fail create test", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app).post("/test").set('Authorization', "Bearer ".concat(token)).send(testBody)];
+                case 1:
+                    response = _a.sent();
+                    expect(response.status).toBe(409);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("Get tests test suite", function () {
+    it("given the token, get all tests in db grouped by its teachers", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app)
+                        .get("/tests?groupBy=teachers")
+                        .set('Authorization', "Bearer ".concat(token))];
+                case 1:
+                    response = _a.sent();
+                    console.log(response.error);
+                    expect(response.status).toBe(200); // por algum motivo está respondendo 409
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("given the token, get all tests in db grouped by its disciplines", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app)
+                        .get("/tests?groupBy=disciplines")
+                        .set('Authorization', "Bearer ".concat(token))];
+                case 1:
+                    response = _a.sent();
+                    console.log(response.error);
+                    expect(response.status).toBe(200); // por algum motivo está respondendo 409
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });
 var templateObject_1;
-//   it ("Given test data that already exists, fail create test",async () => {
-//     const response = await supertest(app).post(`/test`).set('Authorization', `Bearer ${token}`).send(testBody);
-//     expect(response.status).toBe(409)
-//   });
-// })
-// describe ("Get tests test suite", () => {
-//   it ("given the token, get all tests in db grouped by its teachers", async () => {
-//     const response = await supertest(app)
-//     .get(`/tests?groupBy=teachers`)
-//     .set('Authorization', `Bearer ${token}`);
-//     console.log(response.error)
-//     expect(response.status).toBe(200) // por algum motivo está respondendo 409
-//   });
-//   it ("given the token, get all tests in db grouped by its disciplines", async () => {
-//     const response = await supertest(app)
-//     .get(`/tests?groupBy=disciplines`)
-//     .set('Authorization', `Bearer ${token}`);
-//     console.log(response.error)
-//     expect(response.status).toBe(200) // por algum motivo está respondendo 409
-//   });
-// })
