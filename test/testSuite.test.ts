@@ -9,12 +9,10 @@ const createUserInput = {email: EMAIL, password: PASSWORD, confirmPassword: CONF
 const login = {email: EMAIL, password: PASSWORD} // body to login as user
 let token = null; // token that will be received as user logins
 
-// beforeEach(async () => {
-//   await prisma.$executeRaw`TRUNCATE TABLE tests;`;
-// });
-// afterAll(async () => {
-//   await prisma.$disconnect();
-// });
+afterAll(async () => {
+  await prisma.$executeRaw`TRUNCATE TABLE tests;`;
+  await prisma.$disconnect();
+});
 
 describe ("Access tests suite", () => {
   it ("given an email, password and matching confirm password, create user", async () => {
