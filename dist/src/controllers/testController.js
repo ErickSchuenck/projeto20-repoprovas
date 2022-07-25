@@ -59,6 +59,13 @@ export function getTests(req, res) {
                 case 0:
                     query = req.query.groupBy;
                     tests = {};
+                    if (query !== "teachers" && query !== "disciplines") {
+                        throw {
+                            status: 401,
+                            type: "Unauthorized",
+                            message: "Incorrect input"
+                        };
+                    }
                     if (!(query === "disciplines")) return [3 /*break*/, 2];
                     return [4 /*yield*/, testService.getAllTestsBy("disciplines")];
                 case 1:
@@ -71,13 +78,6 @@ export function getTests(req, res) {
                     tests = _a.sent();
                     _a.label = 4;
                 case 4:
-                    if (query !== "teachers" && query !== "disciplines") {
-                        throw {
-                            status: 401,
-                            type: "Unauthorized",
-                            message: "Incorrect input"
-                        };
-                    }
                     res.status(200).send(tests);
                     return [2 /*return*/];
             }

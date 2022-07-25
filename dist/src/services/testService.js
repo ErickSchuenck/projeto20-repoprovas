@@ -42,6 +42,7 @@ export function registerTest(data) {
             switch (_a.label) {
                 case 0:
                     name = data.name, pdfUrl = data.pdfUrl, categoryName = data.categoryName, disciplineId = data.disciplineId, teacherId = data.teacherId;
+                    verifyTestUniqueness(name);
                     return [4 /*yield*/, testRepository.getCategoryIdByCategoryName(categoryName)];
                 case 1:
                     categoryId = _a.sent();
@@ -95,17 +96,23 @@ export function getAllTestsBy(property) {
         });
     });
 }
-// async function getAllTestsByDiscipline(){
-//   const tests = await testRepository.getAllTests();
-//   const formattedOutput = tests.map(tests => 
-//     {
-//     });
-//   return formattedOutput
-// }
-// async function getAllTestsByTeachers(){
-//   const tests = await testRepository.getAllTests();
-//   const formattedOutput = tests.map(tests => 
-//     {
-//     });
-//   return formattedOutput
-// }
+function verifyTestUniqueness(name) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, testRepository.getTest(name)];
+                case 1:
+                    result = _a.sent();
+                    if (result) {
+                        throw {
+                            status: 400,
+                            type: 'bad request',
+                            message: 'This test already exists'
+                        };
+                    }
+                    return [2 /*return*/];
+            }
+        });
+    });
+}

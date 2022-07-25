@@ -10,20 +10,20 @@ export async function registerTest (req: Request, res: Response) {
 export async function getTests(req: Request, res: Response) {
   const query = req.query.groupBy as string;
   let tests = {};
-  if (query === "disciplines" ){
-    tests = await testService.getAllTestsBy("disciplines")
-  }
-
-  if (query === "teachers"){
-    tests = await testService.getAllTestsBy("teachers")
-  }
-
   if (query !== "teachers" && query !== "disciplines") {
     throw {
       status: 401,
       type: "Unauthorized", 
       message: "Incorrect input"
     }
+  }
+
+  if (query === "disciplines" ){
+    tests = await testService.getAllTestsBy("disciplines")
+  }
+
+  if (query === "teachers"){
+    tests = await testService.getAllTestsBy("teachers")
   }
 
   res.status(200).send(tests);

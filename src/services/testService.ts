@@ -10,6 +10,7 @@ interface insertTestInput {
 
 export async function registerTest(data : insertTestInput) {
   const {name, pdfUrl, categoryName, disciplineId, teacherId} = data;
+  await verifyTestUniqueness(name)
   const categoryId = await testRepository.getCategoryIdByCategoryName(categoryName);
   const teacherDisciplineId = await verifyTeacherDisciplineExistance(teacherId, disciplineId);
   const insertInDb = {name, pdfUrl, categoryId, teacherDisciplineId}
@@ -37,4 +38,15 @@ export async function getAllTestsBy(property : "disciplines" | "teachers") {
     response = testRepository.getTestsByTeacher()
   }
   return response
+}
+
+async function verifyTestUniqueness(name : string) {
+  const result = await testRepository.getTest(name)
+  if (result){
+    throw {
+      status: 400,
+      type: 'bad request',
+      message: 'This test already exists'
+    }
+  }
 }

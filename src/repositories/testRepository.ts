@@ -131,3 +131,10 @@ export async function getTestsByTeacher() {
 
     return { tests }
 }
+
+export async function getTest(name : string) {
+    const result = await prisma.tests.findFirst({where: {
+        name
+    }});
+    return result
+}

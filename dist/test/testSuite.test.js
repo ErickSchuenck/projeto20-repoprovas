@@ -37,12 +37,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 import supertest from "supertest";
 import app from "../src/app.js";
 var EMAIL = "".concat(new Date().getTime(), "@gmail.com"); // random email
-var PASSWORD = "secretcode1234567890";
-var CONFIRMPASSWORD = PASSWORD;
-var createUserInput = { email: EMAIL, password: PASSWORD, confirmPassword: CONFIRMPASSWORD };
-var login = { email: EMAIL, password: PASSWORD };
-describe("Acess tests suite", function () {
-    it("given an email and password, and matching confirm password create user", function () { return __awaiter(void 0, void 0, void 0, function () {
+var PASSWORD = "secretcode1234567890"; // example of password
+var CONFIRMPASSWORD = PASSWORD; // matching password
+var createUserInput = { email: EMAIL, password: PASSWORD, confirmPassword: CONFIRMPASSWORD }; // body to register user
+var login = { email: EMAIL, password: PASSWORD }; // body to login as user
+var token = null; // token that will be received as user logins
+// beforeEach(async () => {
+//   await prisma.$executeRaw`TRUNCATE TABLE tests;`;
+// });
+// afterAll(async () => {
+//   await prisma.$disconnect();
+// });
+describe("Access tests suite", function () {
+    it("given an email, password and matching confirm password, create user", function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -55,7 +62,7 @@ describe("Acess tests suite", function () {
         });
     }); });
     it("given valid email and password, return token", function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response, token;
+        var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, supertest(app).post("/signIn").send(login)];
@@ -75,6 +82,38 @@ describe("Acess tests suite", function () {
                 case 1:
                     response = _a.sent();
                     expect(response.status).toBe(409);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("Get tests test suite", function () {
+    it("given the token, get all tests in db grouped by its teachers", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app)
+                        .get("/tests?groupBy=teachers")
+                        .set('Authorization', "Bearer ".concat(token))];
+                case 1:
+                    response = _a.sent();
+                    console.log(response.error);
+                    expect(response.status).toBe(200); // por algum motivo está respondendo 409
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("given the token, get all tests in db grouped by its disciplines", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, supertest(app)
+                        .get("/tests?groupBy=disciplines")
+                        .set('Authorization', "Bearer ".concat(token))];
+                case 1:
+                    response = _a.sent();
+                    console.log(response.error);
+                    expect(response.status).toBe(200); // por algum motivo está respondendo 409
                     return [2 /*return*/];
             }
         });
